@@ -6,18 +6,46 @@ plugins {
 android {
     namespace "im.vector.app.config"
 
-    compileSdk versions.compileSdk
+    compileSdk 34
 
     defaultConfig {
-        minSdk versions.minSdk
-        targetSdk versions.targetSdk
+        minSdk 21
+        targetSdk 34
     }
+    
     compileOptions {
-        sourceCompatibility versions.sourceCompat
-        targetCompatibility versions.targetCompat
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
 
     kotlinOptions {
-        jvmTarget = versions.jvmTarget
+        jvmTarget = "17"
     }
 }
+
+// Force Java 17 for all tasks
+tasks.withType(JavaCompile).configureEach {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+    options.compilerArgs += ['--release', '17']
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.tasks.KaptGenerateStubs).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+tasks.withType(org.jetbrains.kotlin.gradle.internal.KaptTask).configureEach {
+    kotlinOptions {
+        jvmTarget = "17"
+    }
+}
+
+
